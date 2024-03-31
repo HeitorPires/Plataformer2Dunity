@@ -41,14 +41,14 @@ public class Player : MonoBehaviour
     private void HandleMovement()
     {
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftShift))
             _currentSpeed = speedRun;
         else
             _currentSpeed = speed;
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
             _myRigidiBody.velocity = new Vector2(-_currentSpeed, _myRigidiBody.velocity.y);
-        else if (Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.RightArrow))
             _myRigidiBody.velocity = new Vector2(_currentSpeed, _myRigidiBody.velocity.y);
 
         if (_myRigidiBody.velocity.x > 0)
