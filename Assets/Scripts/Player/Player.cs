@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D _myRigidiBody;
 
     public float speed = 10;
+    public float speedRun = 20;
+    private float _currentSpeed;
 
     public Vector2 friction = new Vector2(-.3f, 0);
     public float jumpForce = 15;
@@ -28,10 +30,15 @@ public class Player : MonoBehaviour
     private void HandleMovement()
     {
 
+        if (Input.GetKey(KeyCode.LeftControl))
+            _currentSpeed = speedRun;
+        else
+            _currentSpeed = speed;
+
         if (Input.GetKey(KeyCode.A))
-            _myRigidiBody.velocity = new Vector2(-speed, _myRigidiBody.velocity.y);
+            _myRigidiBody.velocity = new Vector2(-_currentSpeed, _myRigidiBody.velocity.y);
         else if (Input.GetKey(KeyCode.D))
-            _myRigidiBody.velocity = new Vector2(speed, _myRigidiBody.velocity.y);
+            _myRigidiBody.velocity = new Vector2(_currentSpeed, _myRigidiBody.velocity.y);
 
         if (_myRigidiBody.velocity.x > 0)
             _myRigidiBody.velocity += friction;
