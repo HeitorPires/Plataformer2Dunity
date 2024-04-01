@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float speed = 10;
     public float speedRun = 20;
     public float jumpForce = 15;
+    public Vector2 friction = new Vector2(-.3f, 0);
 
     [Header("Animation setup")]
     public float jumpScaleY = 1.5f;
@@ -28,9 +29,8 @@ public class Player : MonoBehaviour
     public string boolRun = "Run";
     public Animator animator;
 
-    private Vector2 friction = new Vector2(-.3f, 0);
-    private float _currentSpeed;
     private bool _isGrounded = false;
+    private float _currentSpeed;
 
 
     private void OnEnable()
@@ -63,14 +63,14 @@ public class Player : MonoBehaviour
 
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             if (_myRigidiBody.transform.localScale.x != -1)
                 _myRigidiBody.transform.DOScaleX(-1, playerSwipeDuration);
             _myRigidiBody.velocity = new Vector2(-_currentSpeed, _myRigidiBody.velocity.y);
             animator.SetBool(boolWalk, true);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             if (_myRigidiBody.transform.localScale.x != 1)
                 _myRigidiBody.transform.DOScaleX(1, playerSwipeDuration);
