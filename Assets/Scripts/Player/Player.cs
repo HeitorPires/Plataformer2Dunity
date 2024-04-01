@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -20,14 +21,22 @@ public class Player : MonoBehaviour
     public float landScaleX = 1.5f;
     public float landScaleY = .7f;
     public float landAnimationDuration = .2f;
+    public float playerSwipeDuration = .1f;
+
+    [Header("Animation player")]
+    public string boolWalk = "Walk";
+    public string boolRun = "Run";
+    public Animator animator;
 
     private Vector2 friction = new Vector2(-.3f, 0);
     private float _currentSpeed;
     private bool _isGrounded = false;
 
-    private void Awake()
+
+    private void OnEnable()
     {
-        _myRigidiBody = GetComponent<Rigidbody2D>();
+        if(_myRigidiBody == null)
+            _myRigidiBody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -42,14 +51,35 @@ public class Player : MonoBehaviour
     {
 
         if (Input.GetKey(KeyCode.LeftShift))
+        {
             _currentSpeed = speedRun;
+            animator.SetBool(boolRun, true);
+
+        }
         else
+        {
             _currentSpeed = speed;
+            animator.SetBool(boolRun, false);
+
+        }
 
         if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (_myRigidiBody.transform.localScale.x != -1)
+                _myRigidiBody.transform.DOScaleX(-1, playerSwipeDuration);
             _myRigidiBody.velocity = new Vector2(-_currentSpeed, _myRigidiBody.velocity.y);
+            animator.SetBool(boolWalk, true);
+        }
         else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            if (_myRigidiBody.transform.localScale.x != 1)
+                _myRigidiBody.transform.DOScaleX(1, playerSwipeDuration);
             _myRigidiBody.velocity = new Vector2(_currentSpeed, _myRigidiBody.velocity.y);
+            animator.SetBool(boolWalk, true);
+        }
+        else
+            animator.SetBool(boolWalk, false);
+
 
         if (_myRigidiBody.velocity.x > 0)
             _myRigidiBody.velocity += friction;
@@ -63,7 +93,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _myRigidiBody.velocity = Vector2.up * jumpForce;
-            _myRigidiBody.transform.localScale = Vector2.one;
             DOTween.Kill(_myRigidiBody.transform);
             HandleScaleJump();
             _isGrounded = false;
@@ -73,14 +102,13 @@ public class Player : MonoBehaviour
     private void HandleScaleJump()
     {
         _myRigidiBody.transform.DOScaleY(jumpScaleY, jumpAnimationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
-        _myRigidiBody.transform.DOScaleX(jumpScaleX, jumpAnimationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
+        _myRigidiBody.transform.DOScaleX(jumpScaleX * _myRigidiBody.transform.localScale.x, jumpAnimationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
     }
 
     private void HandleScaleLand()
     {
-        _myRigidiBody.transform.localScale = Vector2.one;
         DOTween.Kill(_myRigidiBody.transform);
-        _myRigidiBody.transform.DOScaleX(landScaleX, landAnimationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
+        _myRigidiBody.transform.DOScaleX(landScaleX * _myRigidiBody.transform.localScale.x, landAnimationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
         _myRigidiBody.transform.DOScaleY(landScaleY, landAnimationDuration).SetLoops(2, LoopType.Yoyo).SetEase(ease);
 
     }
