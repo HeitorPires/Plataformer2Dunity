@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     [Header("Animation player")]
     public string boolWalk = "Walk";
     public string boolRun = "Run";
+    public string boolJump = "Jump";
     public Animator animator;
 
     private bool _isGrounded = false;
@@ -92,11 +93,15 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            animator.SetBool(boolJump, true);
             _myRigidiBody.velocity = Vector2.up * jumpForce;
             DOTween.Kill(_myRigidiBody.transform);
             HandleScaleJump();
             _isGrounded = false;
         }
+
+        else
+            animator.SetBool(boolJump, false);
     }
 
     private void HandleScaleJump()
