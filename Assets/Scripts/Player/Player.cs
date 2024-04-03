@@ -24,10 +24,11 @@ public class Player : MonoBehaviour
     public float landAnimationDuration = .2f;
     public float playerSwipeDuration = .1f;
 
-    [Header("Animation player")]
+    [Header("Animator player")]
     public string boolWalk = "Walk";
     public string boolRun = "Run";
-    public string boolJump = "Jump";
+    public string boolJumpUp = "Jump Up";
+    public string boolJumpDown = "Jump Down";
     public Animator animator;
 
     private bool _isGrounded = false;
@@ -89,19 +90,21 @@ public class Player : MonoBehaviour
 
     }
 
+    
+
     private void HandleJump()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            animator.SetBool(boolJump, true);
+            //animator.SetBool(boolJumpUp, true);
             _myRigidiBody.velocity = Vector2.up * jumpForce;
             DOTween.Kill(_myRigidiBody.transform);
             HandleScaleJump();
             _isGrounded = false;
         }
 
-        else
-            animator.SetBool(boolJump, false);
+        /*else
+            animator.SetBool(boolJumpUp, false);*/
     }
 
     private void HandleScaleJump()
