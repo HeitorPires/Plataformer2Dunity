@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+    public HealthBase healthBase;
     private Rigidbody2D _myRigidiBody;
 
     [Header("Speed setup")]
@@ -29,14 +30,32 @@ public class Player : MonoBehaviour
     public string boolRun = "Run";
     public string boolJumpUp = "Jump Up";
     public string boolJumpDown = "Jump Down";
+    public string triggerDeath = "Death";
     public Animator animator;
 
     private bool _isGrounded = false;
     private float _currentSpeed;
 
 
+    private void Awake()
+    {
+        if(healthBase != null)
+        {
+            healthBase.onKill += OnPlayerKill;
+        }
+    }
+
+    private void OnPlayerKill()
+    {
+        healthBase.onKill -= OnPlayerKill;
+        animator.SetTrigger(triggerDeath);
+    }
+
     private void OnEnable()
     {
+        if(healthBase == null)
+            healthBase = GetComponent<HealthBase>();
+
         if(_myRigidiBody == null)
             _myRigidiBody = GetComponent<Rigidbody2D>();
     }
@@ -46,7 +65,6 @@ public class Player : MonoBehaviour
     {
         HandleJump();
         HandleMovement();
-
     }
 
     private void HandleMovement()
@@ -90,8 +108,6 @@ public class Player : MonoBehaviour
 
     }
 
-    
-
     private void HandleJump()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -134,8 +150,9 @@ public class Player : MonoBehaviour
 
     }
 
-    
-
-
+    public void DestroyMe()
+    {
+        Destroy(gameObject);
+    }
 
 }

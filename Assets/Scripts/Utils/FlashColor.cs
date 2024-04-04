@@ -27,7 +27,6 @@ public class FlashColor : MonoBehaviour
         if(_currentTween != null)
         {
             _currentTween.Kill();
-            Debug.Log("Matou");
             spriteRenderers.ForEach(i => i.color = originalColor);
         }
 
