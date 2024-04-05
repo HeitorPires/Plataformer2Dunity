@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Core.Singleton;
-using TMPro;
+using System;
 
 public class ItemManager : Singleton<ItemManager>
 {
-    public TextMeshProUGUI textMeshPro;
-    public int coins;
+    public SOInt coins;
+    public Action onCollect;
 
     private void Start()
     {
@@ -16,18 +16,14 @@ public class ItemManager : Singleton<ItemManager>
 
     private void Reset()
     {
-        coins = 0;
-        UpdateCoinsGUI();
+        coins.value = 0;
+        onCollect?.Invoke();
     }
 
     public void AddCoins(int amount = 1)
     {
-        coins += amount;
-        UpdateCoinsGUI();
+        coins.value += amount;
+        onCollect?.Invoke();
     }
 
-    public void UpdateCoinsGUI()
-    {
-        textMeshPro.text = $"X{coins}";
-    }
 }
