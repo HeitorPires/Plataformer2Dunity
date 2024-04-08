@@ -13,6 +13,10 @@ public class GunBase : MonoBehaviour
     private Coroutine _currentCoroutine;
     public Transform playerSideReference;
 
+    private void OnEnable()
+    {
+        playerSideReference = transform.parent;
+    }
 
     // Update is called once per frame
     void Update()
