@@ -6,7 +6,7 @@ public class PlayerDestroyHelper : MonoBehaviour
 {
     public Player player;
 
-    private void OnEnable()
+    private void Awake()
     {
         player = GetComponentInParent<Player>();
     }

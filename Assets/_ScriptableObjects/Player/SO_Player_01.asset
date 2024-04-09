@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ff5f145a9f5ac499ab9cfc0a92d1ea, type: 3}
   m_Name: SO_Player_01
   m_EditorClassIdentifier: 
+  player: {fileID: 6413013834153556191, guid: 00afc9fb4087652419d090da0b825d97, type: 3}
   speed: 10
   speedRun: 20
   jumpForce: 15
   friction: {x: -0.3, y: 0}
-  jumpScaleY: 1.5
-  jumpScaleX: 0.7
+  jumpScaleY: 1
+  jumpScaleX: 1
   jumpAnimationDuration: 0.2
-  landScaleX: 1.5
-  landScaleY: 0.7
+  landScaleX: 1
+  landScaleY: 1
   landAnimationDuration: 0.2
   ease: 1
-  playerSwipeDuration: 0.1
+  playerSwipeDuration: 0.5
   boolWalk: Walk
   boolRun: Run
   triggerDeath: Death

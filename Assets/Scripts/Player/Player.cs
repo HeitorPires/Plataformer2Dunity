@@ -31,12 +31,6 @@ public class Player : MonoBehaviour
         _currentPlayer = Instantiate(soPlayerSetup.player, transform);
     }
 
-    private void OnPlayerKill()
-    {
-        healthBase.onKill -= OnPlayerKill;
-        _currentPlayer.SetTrigger(soPlayerSetup.triggerDeath);
-    }
-
     private void OnEnable()
     {
         if(healthBase == null)
@@ -45,6 +39,13 @@ public class Player : MonoBehaviour
         if(_myRigidiBody == null)
             _myRigidiBody = GetComponent<Rigidbody2D>();
     }
+
+    private void OnPlayerKill()
+    {
+        healthBase.onKill -= OnPlayerKill;
+        _currentPlayer.SetTrigger(soPlayerSetup.triggerDeath);
+    }
+
 
     // Update is called once per frame
     void Update()
