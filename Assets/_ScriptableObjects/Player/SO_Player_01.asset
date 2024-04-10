@@ -17,8 +17,8 @@ MonoBehaviour:
   speedRun: 20
   jumpForce: 15
   friction: {x: -0.3, y: 0}
-  jumpScaleY: 1
-  jumpScaleX: 1
+  jumpScaleY: 1.2
+  jumpScaleX: 0.8
   jumpAnimationDuration: 0.2
   landScaleX: 1
   landScaleY: 1
