@@ -17,19 +17,13 @@ public class Player : MonoBehaviour
     private Animator _currentPlayer;
     #endregion
 
-    private bool _isGrounded = false;
+    #region jump setups
+    public Collider2D collider2D;
+    public float distToGround;
+    public float spaceToGround;
+    public ParticleSystem jumpVFX;
+    #endregion
     private float _currentSpeed;
-
-
-    private void Awake()
-    {
-        if(healthBase != null)
-        {
-            healthBase.onKill += OnPlayerKill;
-        }
-
-        _currentPlayer = Instantiate(soPlayerSetup.player, transform);
-    }
 
     private void OnEnable()
     {
@@ -40,6 +34,32 @@ public class Player : MonoBehaviour
             _myRigidiBody = GetComponent<Rigidbody2D>();
     }
 
+    private void Awake()
+    {
+        if(healthBase != null)
+        {
+            healthBase.onKill += OnPlayerKill;
+        }
+
+        _currentPlayer = Instantiate(soPlayerSetup.player, transform);
+
+        if (collider2D != null)
+            distToGround = collider2D.bounds.extents.y;
+
+    }
+
+    void Update()
+    {
+        HandleJump();
+        HandleMovement();
+    }
+    
+    private bool IsGrounded()
+    {
+        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + spaceToGround);
+    }
+
+
     private void OnPlayerKill()
     {
         healthBase.onKill -= OnPlayerKill;
@@ -48,11 +68,6 @@ public class Player : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
-        HandleJump();
-        HandleMovement();
-    }
 
     private void HandleMovement()
     {
@@ -97,17 +112,25 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             //animator.SetBool(boolJumpUp, true);
             _myRigidiBody.velocity = Vector2.up * soPlayerSetup.jumpForce;
+            _myRigidiBody.transform.localScale = Vector2.one;
+
             DOTween.Kill(_myRigidiBody.transform);
             HandleScaleJump();
-            _isGrounded = false;
+            PlayJumpVFX();
         }
 
         /*else
             animator.SetBool(boolJumpUp, false);*/
+    }
+
+    private void PlayJumpVFX()
+    {
+        if(jumpVFX != null)
+            jumpVFX.Play(); 
     }
 
     private void HandleScaleJump()
@@ -128,11 +151,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            if(!_isGrounded)
-            {
-                HandleScaleLand();
-                _isGrounded = true;
-            }
+            HandleScaleLand();
         }
 
     }
