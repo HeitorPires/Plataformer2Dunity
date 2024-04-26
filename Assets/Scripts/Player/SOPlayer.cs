@@ -10,7 +10,7 @@ public class SOPlayer : ScriptableObject
 
     public Animator player;
 
-    #region speedSetup
+    #region speed Setup
     [Header("Speed setup")]
     public float speed = 10;
     public float speedRun = 20;
@@ -35,5 +35,10 @@ public class SOPlayer : ScriptableObject
     public string boolWalk = "Walk";
     public string boolRun = "Run";
     public string triggerDeath = "Death";
+    #endregion
+
+    #region Jump Setup
+    [Header("Jump setup")]
+    public int maxNumberOfJumps;
     #endregion
 }

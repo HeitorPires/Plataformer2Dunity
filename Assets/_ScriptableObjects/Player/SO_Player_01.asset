@@ -28,3 +28,4 @@ MonoBehaviour:
   boolWalk: Walk
   boolRun: Run
   triggerDeath: Death
+  maxNumberOfJumps: 3

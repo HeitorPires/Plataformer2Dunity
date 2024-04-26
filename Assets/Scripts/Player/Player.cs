@@ -22,7 +22,9 @@ public class Player : MonoBehaviour
     public float distToGround;
     public float spaceToGround;
     public ParticleSystem jumpVFX;
+    private int numberOfJumpsLeft;
     #endregion
+
     private float _currentSpeed;
 
     private void OnEnable()
@@ -36,7 +38,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        if(healthBase != null)
+        ResetNumberOfJumps();
+
+        if (healthBase != null)
         {
             healthBase.onKill += OnPlayerKill;
         }
@@ -54,11 +58,6 @@ public class Player : MonoBehaviour
         HandleMovement();
     }
     
-    private bool IsGrounded()
-    {
-        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + spaceToGround);
-    }
-
 
     private void OnPlayerKill()
     {
@@ -66,8 +65,6 @@ public class Player : MonoBehaviour
         _currentPlayer.SetTrigger(soPlayerSetup.triggerDeath);
     }
 
-
-    // Update is called once per frame
 
     private void HandleMovement()
     {
@@ -110,9 +107,10 @@ public class Player : MonoBehaviour
 
     }
 
+
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && CanJump())
         {
             //animator.SetBool(boolJumpUp, true);
             _myRigidiBody.velocity = Vector2.up * soPlayerSetup.jumpForce;
@@ -121,6 +119,7 @@ public class Player : MonoBehaviour
             DOTween.Kill(_myRigidiBody.transform);
             HandleScaleJump();
             PlayJumpVFX();
+            numberOfJumpsLeft--;
         }
 
         /*else
@@ -129,8 +128,9 @@ public class Player : MonoBehaviour
 
     private void PlayJumpVFX()
     {
-        if(jumpVFX != null)
-            jumpVFX.Play(); 
+        /*if(jumpVFX != null)
+            jumpVFX.Play(); */
+        VFXManager.Instance.PlayVFXByType(VFXManager.VFXType.JUMP, transform.position);
     }
 
     private void HandleScaleJump()
@@ -152,6 +152,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             HandleScaleLand();
+            ResetNumberOfJumps();
         }
 
     }
@@ -159,6 +160,24 @@ public class Player : MonoBehaviour
     public void DestroyMe()
     {
         Destroy(gameObject);
+    }
+    
+
+    private void ResetNumberOfJumps()
+    {
+        numberOfJumpsLeft = soPlayerSetup.maxNumberOfJumps;
+    }
+
+
+    private bool CanJump()
+    {
+        return  numberOfJumpsLeft > 0;
+    }
+
+
+    private bool IsGrounded()
+    {
+        return Physics2D.Raycast(transform.position, -Vector2.up, distToGround + spaceToGround);
     }
 
 }
