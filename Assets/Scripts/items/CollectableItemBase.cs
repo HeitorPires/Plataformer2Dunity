@@ -10,7 +10,8 @@ public class CollectableItemBase : MonoBehaviour
     public float timeToDestroy = 3f;
     public GameObject graphicItem;
 
-    
+    [Header("Sounds")]
+    public AudioSource audioSource;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,10 +41,17 @@ public class CollectableItemBase : MonoBehaviour
 
     }
 
+    private void PlaySounds()
+    {
+        if(audioSource != null)
+            audioSource.Play();
+    }
+
     protected virtual void OnCollect() 
     { 
         HideObject();
         PlayParticleSystem();
+        PlaySounds();
         Destroy(gameObject, timeToDestroy);
     }
 }
