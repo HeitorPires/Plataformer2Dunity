@@ -6,6 +6,7 @@ public class CollectableItemCoin : CollectableItemBase
 {
 
 
+
     protected override void OnCollect()
     {
         base.OnCollect();
