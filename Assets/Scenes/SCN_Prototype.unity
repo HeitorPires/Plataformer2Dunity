@@ -2924,6 +2924,7 @@ MonoBehaviour:
   startLife: 2
   destroyOnKill: 0
   delayToKill: 0.5
+  _currentLife: 0
   _flashColor: {fileID: 1838406559}
 --- !u!1 &1319323774
 GameObject:
@@ -3901,6 +3902,7 @@ MonoBehaviour:
   startLife: 10
   destroyOnKill: 0
   delayToKill: 0.2
+  _currentLife: 0
   _flashColor: {fileID: 0}
 --- !u!61 &1762030489
 BoxCollider2D:

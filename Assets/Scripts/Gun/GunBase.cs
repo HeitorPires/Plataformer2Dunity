@@ -16,7 +16,7 @@ public class GunBase : MonoBehaviour
 
     private void OnEnable()
     {
-        playerSideReference = GameObject.FindAnyObjectByType<Player>().transform;
+        playerSideReference = GameObject.FindObjectOfType<Player>().transform;
     }
 
     // Update is called once per frame
