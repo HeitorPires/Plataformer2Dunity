@@ -12,4 +12,14 @@ public class LoadScene : MonoBehaviour
     {
         SceneManager.LoadScene(scene);
     }
+    
+    public void Unload(int scene)
+    {
+        SceneManager.UnloadSceneAsync(scene);
+    }
+    
+    public void Unload(string scene)
+    {
+        SceneManager.UnloadSceneAsync(scene);
+    }
 }

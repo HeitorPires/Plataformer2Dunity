@@ -3493,8 +3493,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd706292cfa54c4e9b7513eeea5447d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  Enemys: []
+  playerPrefab: {fileID: 8835229685202505509, guid: 00afc9fb4087652419d090da0b825d97, type: 3}
+  Enemies: []
+  startPoint: {fileID: 0}
+  duration: 0.5
+  delay: 0.05
+  ease: 13
 --- !u!1 &1763741107
 GameObject:
   m_ObjectHideFlags: 0
