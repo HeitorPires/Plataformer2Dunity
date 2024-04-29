@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GunBase : MonoBehaviour
 {
-
+    public AudioSource audioSource;
+    public AudioClip clip;
     public ProjectileBase prefabProjectile;
 
     public Transform positionToShoot;
@@ -36,6 +37,7 @@ public class GunBase : MonoBehaviour
         while (true)
         {
             Shoot();
+            PlayShootSound();
             yield return new WaitForSeconds(timeBeteenShoot);
         }
     }
@@ -45,6 +47,12 @@ public class GunBase : MonoBehaviour
         var projectile = Instantiate(prefabProjectile);
         projectile.transform.position = positionToShoot.position;
         projectile.side = playerSideReference.transform.localScale.x;
+    }
+
+    private void PlayShootSound()
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 
 }
